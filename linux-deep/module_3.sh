@@ -34,8 +34,8 @@ task_7_text() { cat <<'T'
 Задание 7 (5–10 мин) · journald
   1. Отправьте в журнал своё сообщение с тегом student.        logger -t student "привет, журнал"
      Найдите его:                                              journalctl -t student -n 1
-  2. Сервис ld-notes пишет в журнал. Среди его сообщений есть одна ошибка (приоритет err) с кодом вида E-1234.
-     Найдите её и запишите код в /root/task7-answer.txt.       journalctl -u ld-notes -p err
+  2. Сервис ld-notes пишет в журнал. Среди его сообщений есть ошибка (приоритет err) с кодом вида E-1234.
+     Найдите самую свежую и запишите её код в /root/task7-answer.txt.    journalctl -u ld-notes -p err -n 1
   3. Ограничьте размер журнала: создайте /etc/systemd/journald.conf.d/size.conf
          [Journal]
          SystemMaxUse=200M
