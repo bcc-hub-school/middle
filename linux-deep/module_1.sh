@@ -33,7 +33,7 @@ task_1_text() { cat <<'T'
   1. hello-ld        — исполняемый файл локального ПО      -> /usr/local/bin/
   2. hello-ld.conf   — конфигурация                         -> /etc/hello-ld/
   3. hello-ld.log    — журнал                               -> /var/log/hello-ld/
-Каталоги создайте сами (mkdir). Готово, когда команда `hello-ld` отвечает «hello-ld: ok».
+Каталоги создайте сами (mkdir). Готово, когда команда `sudo hello-ld` отвечает «hello-ld: ok».
 T
 }
 task_1_cleanup() { rm -rf /root/ld-task1 /etc/hello-ld /var/log/hello-ld /usr/local/bin/hello-ld; }
@@ -42,7 +42,8 @@ task_1_setup() {
   cat > /root/ld-task1/hello-ld <<'S'
 #!/bin/bash
 [ -r /etc/hello-ld/hello-ld.conf ]    || { echo "hello-ld: нет конфигурации в /etc/hello-ld/" >&2; exit 1; }
-[ -w /var/log/hello-ld/hello-ld.log ] || { echo "hello-ld: нет журнала в /var/log/hello-ld/" >&2; exit 1; }
+[ -e /var/log/hello-ld/hello-ld.log ] || { echo "hello-ld: нет журнала в /var/log/hello-ld/" >&2; exit 1; }
+[ -w /var/log/hello-ld/hello-ld.log ] || { echo "hello-ld: нет прав на запись в журнал — запустите через sudo" >&2; exit 1; }
 echo "$(date '+%F %T') run" >> /var/log/hello-ld/hello-ld.log; echo "hello-ld: ok"
 S
   chmod 755 /root/ld-task1/hello-ld
